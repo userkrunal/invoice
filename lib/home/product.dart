@@ -20,7 +20,7 @@ class _Product_ListState extends State<Product_List> {
     List<ProductModel> pm =ModalRoute.of(context)!.settings.arguments as List<ProductModel>;
     return SafeArea(
       child: Scaffold(
-        backgroundColor: Colors.white,
+        backgroundColor: Colors.purpleAccent.shade400,
         appBar: AppBar(
             title: Text("Bridal Studio"),centerTitle: true,
             actions: [
@@ -42,7 +42,7 @@ class _Product_ListState extends State<Product_List> {
           child: Container(
             height: double.infinity,
             width: double.infinity,
-            color: Colors.white,
+            color: Colors.cyan.shade100,
             child: Stack(
               children: [
 
@@ -60,11 +60,11 @@ class _Product_ListState extends State<Product_List> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      Container(height: 30,width: 80,color:Colors.black45 ,child: Center(child: Text("Product",style: TextStyle(fontSize: 20)))),
-                      Container(height: 30,width: 60,color:Colors.black45,child: Center(child: Text("Price",style: TextStyle(fontSize: 20)))),
-                      Container(height: 30,width: 40,color:Colors.black45,child: Center(child: Text("Qty",style: TextStyle(fontSize: 20)))),
-                      // Container(height: 30,width: 50,color:Colors.black45,child: Center(child: Text("Tax",style: TextStyle(fontSize: 20)))),
-                      // Container(height: 30,width: 80,color:Colors.black45,child: Center(child: Text("Amount",style: TextStyle(fontSize: 20)))),
+                      Container(height: 30,width: 80,color:Colors.black45 ,child: Center(child: Text("Product",style: TextStyle(fontSize: 20,color: Colors.black)))),
+                      Container(height: 30,width: 40,color:Colors.black45,child: Center(child: Text("Qty",style: TextStyle(fontSize: 20,color: Colors.black)))),
+                      Container(height: 30,width: 60,color:Colors.black45,child: Center(child: Text("price",style: TextStyle(fontSize: 20,color: Colors.black)))),
+                      Container(height: 30,width: 50,color:Colors.black45,child: Center(child: Text("Total",style: TextStyle(fontSize: 20,color: Colors.black)))),
+                     // Container(height: 30,width: 50,color:Colors.black45,child: Center(child: Text("Tax",style: TextStyle(fontSize: 20,color: Colors.black)))),
                     ],
                   ),
                 ),
@@ -74,19 +74,30 @@ class _Product_ListState extends State<Product_List> {
                     children: [
                       Expanded(
                         child: ListView.builder(itemBuilder: (context, index) {
-                          return Center(child: Text("${pm[index].name}\n\n",style: TextStyle(fontSize: 20)));
+                          return Center(child: Text("${pm[index].name}\n\n",style: TextStyle(fontSize: 20,color: Colors.black)));
                         },itemCount: prodcutList.length),
                       ),
                       Expanded(
                         child: ListView.builder(itemBuilder: (context, index) {
-                          return Center(child: Text("${pm[index].price}\n\n",style: TextStyle(fontSize: 20)));
+                          return Center(child: Text("${pm[index].no} \n\n",style: TextStyle(fontSize: 20,color: Colors.black)));
                         },itemCount: prodcutList.length),
                       ),
                       Expanded(
                         child: ListView.builder(itemBuilder: (context, index) {
-                          return Center(child: Text("${pm[index].no}\n\n",style: TextStyle(fontSize: 20)));
+                          return Center(child: Text("${pm[index].price}\n\n",style: TextStyle(fontSize: 20,color: Colors.black)));
                         },itemCount: prodcutList.length),
                       ),
+                      Expanded(
+                        child: ListView.builder(itemBuilder: (context, index) {
+                          return Center(child: Text("${pm[index].total}\n\n",style: TextStyle(fontSize: 20,color: Colors.black)));
+                        },itemCount: prodcutList.length),
+                      ),
+                      // Expanded(
+                      //   child: ListView.builder(itemBuilder: (context, index) {
+                      //     return Center(child: Text("${pm[index].tax}\n\n",style: TextStyle(fontSize: 15,color: Colors.black)));
+                      //   },itemCount: prodcutList.length),
+                      // ),
+
                     ],
                   ),
                 ),

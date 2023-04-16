@@ -14,11 +14,15 @@ class _Home_ScreenState extends State<Home_Screen> {
   TextEditingController txtPQty=TextEditingController();
   TextEditingController txtPprice=TextEditingController();
   ProductModel productModel=ProductModel();
-
+  String total="";
+  String qty="1";
+  String price = "0";
+  String amount="";
+  String tax="";
   @override
   Widget build(BuildContext context) {
     return SafeArea(child: Scaffold(
-      appBar: AppBar(title: Text("Invoice generator"),centerTitle: true,
+      appBar: AppBar(title: Text("Invoice generator"),centerTitle: true,backgroundColor: Colors.purple.shade200,
         leading:  Icon(Icons.shop_2_sharp),
         actions: [Icon(Icons.refresh)],
       ),
@@ -39,7 +43,7 @@ class _Home_ScreenState extends State<Home_Screen> {
                       width: 100,
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(30),
-                          color: Colors.black87
+                          color: Colors.purpleAccent.shade200
                       ),
                       child: Center(child: Text("Product + ",style: TextStyle(color: Colors.white),)),
                     ),
@@ -53,9 +57,9 @@ class _Home_ScreenState extends State<Home_Screen> {
                       width: 100,
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(30),
-                          color: Colors.black87
+                          color: Colors.purpleAccent.shade200
                       ),
-                      child: Center(child: Text("Invoice + ",style: TextStyle(color: Colors.white),)),
+                      child: Center(child: Text("Invoice ^ ",style: TextStyle(color: Colors.white),)),
                     ),
                   ),
                 ],
@@ -72,7 +76,7 @@ class _Home_ScreenState extends State<Home_Screen> {
               children: [
                 Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: TextField(
+                  child: TextFormField(
                     controller: txtPName,
                     decoration: InputDecoration(
                       border: OutlineInputBorder(
@@ -84,19 +88,12 @@ class _Home_ScreenState extends State<Home_Screen> {
                 SizedBox(height: 10),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: TextField(
-                    controller: txtPQty,
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10)),
-                      labelText: "Product Qty",
-                    ),
-                  ),
-                ),
-                SizedBox(height: 10),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: TextField(
+                  child: TextFormField(
+                    onChanged: (value) {
+                      setState(() {
+                        price=value;
+                      });
+                    },
                     controller: txtPprice,
                     decoration: InputDecoration(
                       border: OutlineInputBorder(
@@ -106,16 +103,38 @@ class _Home_ScreenState extends State<Home_Screen> {
                   ),
                 ),
                 SizedBox(height: 10),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: TextFormField(
+                    controller: txtPQty,
+                    onChanged: (value) {
+                      setState(() {
+                        qty=value;
+                        total='${(int.parse(price)*int.parse(qty))}';
+                      });
+                    },
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10)),
+                      labelText: "Product Qty",
+                    ),
+                  ),
+                ),
+                // Text("${total}",style: TextStyle(color: Colors.redAccent,fontSize: 10)),
+                SizedBox(height: 15),
                 InkWell(
                   onTap: () {
-                    String name=txtPName.text;
-                    String qty=txtPQty.text;
-                    String price=txtPprice.text;
-                    ProductModel pm=ProductModel(name: name,no: qty,price: price);
+                    ProductModel pm=ProductModel(name: txtPName.text,no: txtPQty.text,price: txtPprice.text,total: total);
                     setState(() {
                       prodcutList.add(pm);
-                      Navigator.pop(context);
+                      txtPName.text='';
+                      txtPQty.text='';
+                      txtPprice.text='';
+                      tax='${(int.parse(price)*int.parse(qty))*18/100}';
+                      print("${tax}");
                     });
+                    Navigator.pop(context);
+                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(behavior:SnackBarBehavior.floating,content: Text("Thanks for Adding Product in List"),backgroundColor: Colors.purple.shade400,));
                   },
                   child: Container(
                     height: 50,
@@ -166,7 +185,7 @@ class _Home_ScreenState extends State<Home_Screen> {
 }
 class ProductModel
 {
-  String? name,no,price;
+  String? name,no,price,total,amount,tax;
 
-  ProductModel({this.name, this.no, this.price});
+  ProductModel({this.name, this.no, this.price,this.total,this.amount,this.tax});
 }
